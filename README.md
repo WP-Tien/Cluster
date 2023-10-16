@@ -1,4 +1,4 @@
-Step 1: Pre-requisites
+# Step 1: Pre-requisites
 
 1.a.. Check the OS, Hardware Configurations & Network connectivity
 1.b.. Turn off the swap & firewall
@@ -7,7 +7,7 @@ sudo swapoff -a
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 
-Step 2. Configure the local IP tables to see the Bridged Traffic
+# Step 2. Configure the local IP tables to see the Bridged Traffic
 
 2.a.. Enable the bridged traffic
 lsmod | grep br_netfilter
@@ -27,7 +27,7 @@ EOF
 
 sudo sysctl --system
 
-Step 3. Install Docker as a Container RUNTIME
+# Step 3. Install Docker as a Container RUNTIME
 
 3.a.. Uninstall any Older versions
 sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
@@ -42,7 +42,7 @@ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/dock
 sudo yum install -y docker-ce docker-ce-cli containerd.io
 
 
-Step 4. Configure Docker Daemon for cgroups management & Start Docker
+# Step 4. Configure Docker Daemon for cgroups management & Start Docker
 
 4.a.. Create directory 
 sudo mkdir /etc/docker
@@ -65,7 +65,7 @@ sudo systemctl enable docker
 
 sudo systemctl status docker
 
-Step 5. Install kubeadm, kubectl, kubelet
+# Step 5. Install kubeadm, kubectl, kubelet
 
 5.a.. Copy the below contents in this file.. /etc/yum.repos.d/kubernetes.repo
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
@@ -86,11 +86,11 @@ sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
 sudo systemctl enable --now kubelet
 
-Step 6. Configuring a cgroup driver
+# Step 6. Configuring a cgroup driver
 
 Ignore if docker is used as a CRI
 
-Step 7. Deploy a  kubernetes cluster using kubeadm
+# Step 7. Deploy a  kubernetes cluster using kubeadm
 
 # Run only in Master node
 ---
@@ -121,7 +121,7 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join 172.16.10.100:6443 --token lvlg85.ogciz6go2ru6iibw \
         --discovery-token-ca-cert-hash sha256:f55bcbb5524abdbbb476ed60e71733d1ca668f824abcca3ba490cca7379cc7cb
 
-Step 8. Install CNI for POD Networking
+# Step 8. Install CNI for POD Networking
 
 # Run only in Master node
 
@@ -132,7 +132,7 @@ Weave Networks:
 kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s-1.11.yaml
 
-Step 9. Join the worker nodes to the master
+# Step 9. Join the worker nodes to the master
 
 # Run in Worker Nodes as "Root"
 
